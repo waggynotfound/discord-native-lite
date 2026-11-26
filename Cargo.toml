@@ -1,0 +1,49 @@
+[package]
+name = "relay-launcher"
+version = "2.1.0"
+edition = "2021"
+autotests = false
+rust-version = "1.85"
+description = "A native Windows Discord launcher and on-demand private RAM meter"
+license = "GPL-3.0-only"
+readme = "README.md"
+include = [
+    "/Cargo.toml", "/Cargo.lock", "/build.rs", "/build.ps1", "/README.md",
+    "/LICENSE", "/CONTRIBUTING.md", "/assets/relay.ico", "/src/**", "/tests/*.rs",
+]
+
+[[bin]]
+name = "Relay"
+path = "src/main.rs"
+
+[[test]]
+name = "native_flow"
+path = "tests/native_flow.rs"
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+wmi = { version = "=0.13.4", default-features = false }
+chrono = { version = "0.4", default-features = false, features = ["std"] }
+windows-sys = { version = "0.59", features = [
+    "Win32_Foundation",
+    "Win32_Graphics_Gdi",
+    "Win32_System_Diagnostics_ToolHelp",
+    "Win32_System_LibraryLoader",
+    "Win32_System_Threading",
+    "Win32_System_RemoteDesktop",
+    "Win32_UI_HiDpi",
+    "Win32_UI_Shell",
+    "Win32_UI_WindowsAndMessaging",
+    "Win32_UI_Controls",
+    "Win32_UI_Input_KeyboardAndMouse",
+] }
+
+[build-dependencies]
+object = { version = "0.36", default-features = false, features = ["write", "coff", "std"] }
+
+[profile.release]
+lto = true
+codegen-units = 1
+opt-level = "s"
+panic = "abort"
+strip = "symbols"

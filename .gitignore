@@ -1,0 +1,28 @@
+# Rust build output and optional project-local tools
+/target/
+/.toolchain/
+/dist/
+
+# Local copies of releases, private test captures and measurements
+/Relay-Rust-v*/
+/backup/
+/verification/
+/tests/out/
+/.local/
+*.exe
+*.pdb
+*.zip
+*.log
+
+# Local configuration and editor state
+.env
+.env.*
+!.env.example
+*.pem
+*.pfx
+*.key
+/.idea/
+/.vscode/
+Thumbs.db
+Desktop.ini
+.DS_Store

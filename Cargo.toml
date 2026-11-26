@@ -10,6 +10,7 @@ readme = "README.md"
 include = [
     "/Cargo.toml", "/Cargo.lock", "/build.rs", "/build.ps1", "/README.md",
     "/LICENSE", "/CONTRIBUTING.md", "/assets/relay.ico", "/src/**", "/tests/*.rs",
+    "/docs/images/*.png", "/packaging/**",
 ]
 
 [[bin]]

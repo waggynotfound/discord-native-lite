@@ -29,3 +29,14 @@ jobs:
         run: cargo +stable test --locked
       - name: Build release executable
         run: cargo +stable build --release --locked
+      - name: Build Windows installer and portable package
+        shell: powershell
+        env:
+          RUSTUP_TOOLCHAIN: stable
+        run: .\packaging\build-release.ps1
+      - name: Test per-user install, launch and removal
+        shell: powershell
+        run: |
+          $installers = @(Get-ChildItem dist/release -Recurse -Filter '*-windows-x64-setup.exe')
+          if ($installers.Count -ne 1) { throw 'Expected one installer.' }
+          .\packaging\test-setup.ps1 -Setup $installers[0].FullName

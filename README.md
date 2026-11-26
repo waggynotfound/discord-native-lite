@@ -4,7 +4,13 @@ Relay is a native Windows launcher for the **official Discord desktop app**. It 
 
 Relay is not a Discord replacement. A smaller launcher does not mean a smaller Discord session: the client, your activity, and any plugins determine most of its memory use.
 
-## Build and run
+## Install on Windows
+
+Download [**Relay-2.1.0-windows-x64-setup.exe**](https://github.com/waggynotfound/discord-native-lite/releases/download/v2.1.0/Relay-2.1.0-windows-x64-setup.exe) from the [2.1.0 release](https://github.com/waggynotfound/discord-native-lite/releases/tag/v2.1.0). The setup installs for the current user, adds a Start menu shortcut, and offers an optional desktop shortcut. Open **Relay** from Start. To remove it, use Windows **Settings → Apps → Relay → Uninstall**. Uninstalling Relay leaves Discord, Vencord, and your saved readings intact.
+
+Prefer not to install? Extract `Relay-2.1.0-windows-x64-portable.zip` and run `Relay.exe`. Both packages are unsigned. The release includes `SHA256SUMS.txt`; compare its entry with `Get-FileHash -Algorithm SHA256 <downloaded-file>` to verify your download. Access to this private repository is required.
+
+## Build from source
 
 Use Windows 10 or 11 (x64) and a current stable [Rust toolchain](https://www.rust-lang.org/tools/install). With the standard MSVC toolchain, install the Visual Studio C++ build tools and Windows SDK when prompted. From the repository root:
 
@@ -34,6 +40,18 @@ Relay passes the V8 flags together through Electron’s `--js-flags` switch. The
 3. Compare the saved medians. **Private RAM** counts resident private pages across the selected client’s processes. **Renderer RAM** is part of that total, not extra. **Committed memory** includes allocations that need not be resident.
 
 Each recording uses seven complete samples roughly five seconds apart. Relay verifies the profile from the running main and renderer processes. It discards incomplete recordings or recordings in which the session changes. Only readings from the same Discord channel and build are compared.
+
+### Example: two Task Manager snapshots
+
+**Ordinary Discord — 1,190.4 MB, 6 processes**
+
+![Windows Task Manager: ordinary Discord, 6 processes, 23.9% CPU and 1,190.4 MB of memory](docs/images/discord-six-processes.png)
+
+**Discord launched with Relay — 612.4 MB, 3 processes**
+
+![Windows Task Manager: Discord launched with Relay, 3 processes, 6.1% CPU and 612.4 MB of memory](docs/images/discord-three-processes.png)
+
+The second snapshot shows **578.0 MB less memory (48.6%)**. These are user-provided, single-point readings of **Discord**, not the launcher's RAM or a controlled benchmark. Process counts, CPU load, and network activity differed. The screenshots alone cannot attribute the difference to Relay or Vencord. Use the procedure above to test your own workload.
 
 ## Local data and compatibility
 

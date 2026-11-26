@@ -13,10 +13,22 @@ try {
     }
     if (!$Iscc) {
         $cmd = Get-Command ISCC.exe -ErrorAction SilentlyContinue
-        $candidates = @($cmd.Source, "$env:LOCALAPPDATA\Programs\Inno Setup 6\ISCC.exe", "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe", "$env:ProgramFiles\Inno Setup 6\ISCC.exe")
-        $Iscc = $candidates | Where-Object { $_ -and (Test-Path -LiteralPath $_ -PathType Leaf) } | Select-Object -First 1
+        # Hosted runners can put a Chocolatey shim on PATH. Use a complete installation,
+        # not just the first file named ISCC.exe: the package also ships Inno's notice.
+        $candidates = @("$env:LOCALAPPDATA\Programs\Inno Setup 6\ISCC.exe", "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe", "$env:ProgramFiles\Inno Setup 6\ISCC.exe")
+        foreach ($view in @('HKCU:\Software', 'HKLM:\Software', 'HKLM:\Software\WOW6432Node')) {
+            $installed = Get-ItemProperty -Path "$view\Microsoft\Windows\CurrentVersion\Uninstall\Inno Setup*" -ErrorAction SilentlyContinue
+            foreach ($entry in $installed) { if ($entry.InstallLocation) { $candidates += Join-Path $entry.InstallLocation 'ISCC.exe' } }
+        }
+        $candidates += $cmd.Source
+        $Iscc = $candidates | Where-Object {
+            $_ -and (Test-Path -LiteralPath $_ -PathType Leaf) -and
+            (Test-Path -LiteralPath (Join-Path (Split-Path $_ -Parent) 'license.txt') -PathType Leaf)
+        } | Select-Object -First 1
     }
-    if (!$Iscc -or !(Test-Path -LiteralPath $Iscc -PathType Leaf)) { throw 'Install Inno Setup 6.3+ or supply -Iscc <path to ISCC.exe>.' }
+    if (!$Iscc -or !(Test-Path -LiteralPath $Iscc -PathType Leaf)) { throw 'Install Inno Setup 6.3+ or supply -Iscc <path to the real ISCC.exe>.' }
+    $Iscc = (Resolve-Path -LiteralPath $Iscc).Path
+    if (!(Test-Path -LiteralPath (Join-Path (Split-Path $Iscc -Parent) 'license.txt') -PathType Leaf)) { throw 'The Inno license must be next to ISCC.exe; do not use a package-manager shim for -Iscc.' }
     $hostLine = rustc -vV | Where-Object { $_ -like 'host: *' }
     $target = "$hostLine" -replace '^host: ', ''
     if ($target -notmatch '^x86_64-pc-windows-(gnu|msvc)$') { throw 'Build using a native x64 Windows GNU or MSVC Rust toolchain.' }

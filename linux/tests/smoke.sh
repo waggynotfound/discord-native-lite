@@ -6,9 +6,10 @@ export APPIMAGE_EXTRACT_AND_RUN=1
 scratch=$(mktemp -d); gui=''
 cleanup(){ touch "$scratch/finish"; if [[ -n "$gui" ]]; then kill "$gui" 2>/dev/null || true; fi; sleep .4; rm -r -- "$scratch"; }
 trap cleanup EXIT
+# Compile with the runner's Rust installation before isolating the app's HOME.
+rustc --edition=2021 tests/fixture.rs -o "$scratch/Discord"
 export HOME="$scratch/home" XDG_STATE_HOME="$scratch/state"
 mkdir -p "$HOME" "$scratch/resources" out/preview
-rustc --edition=2021 tests/fixture.rs -o "$scratch/Discord"
 printf 'Vencord fixture' > "$scratch/resources/app.asar"
 cmd=("$image" --discord "$scratch/Discord")
 "$image" --version

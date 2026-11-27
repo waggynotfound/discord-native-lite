@@ -46,6 +46,6 @@ fetch "$runtime" https://api.github.com/repos/AppImage/type2-runtime/releases/as
 chmod +x "$tool"
 name="Relay-$version-linux-x86_64.AppImage"
 export ARCH=x86_64 VERSION="$version"
-"$tool" --appimage-extract-and-run --no-appstream --comp xz --runtime-file "$runtime" "$app" "$stage/$name"
+"$tool" --appimage-extract-and-run --no-appstream --comp zstd --runtime-file "$runtime" "$app" "$stage/$name"
 install -m755 "$stage/$name" "out/$name"
 ( cd out; sha256sum "$name" > "$name.sha256"; sha256sum -c "$name.sha256" )

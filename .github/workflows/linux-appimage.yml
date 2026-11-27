@@ -1,0 +1,40 @@
+name: Linux AppImage
+on:
+  push:
+    paths: ['linux/**', '.github/workflows/linux-appimage.yml', 'LICENSE']
+  pull_request:
+    paths: ['linux/**', '.github/workflows/linux-appimage.yml', 'LICENSE']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  x86_64:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Install build and virtual desktop tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends musl-tools xvfb xauth xdotool imagemagick desktop-file-utils
+          rustup toolchain install stable --profile minimal --component rustfmt --target x86_64-unknown-linux-musl
+          rustup override set stable
+      - name: Check sources and unit tests
+        working-directory: linux
+        run: |
+          cargo fmt --all -- --check
+          cargo test --locked
+          desktop-file-validate relay.desktop
+      - name: Package static Linux binary in type-2 AppImage
+        run: bash linux/build-appimage.sh
+      - name: Test the packaged application and take screenshots
+        run: xvfb-run -a -s '-screen 0 1024x768x24' bash linux/tests/smoke.sh
+      - name: Archive tested AppImage and preview
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: relay-linux-x86_64
+          path: linux/out/
+          if-no-files-found: error
+          retention-days: 14

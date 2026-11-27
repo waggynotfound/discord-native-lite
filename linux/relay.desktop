@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Relay
+Comment=Launch the official Discord client and compare its private RAM
+Exec=relay-linux
+Icon=relay
+Terminal=false
+Categories=Utility;
+StartupWMClass=Relay

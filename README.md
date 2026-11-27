@@ -1,8 +1,19 @@
 # Relay
 
-Relay is a native Windows launcher for the **official Discord desktop app**. It lets you try different JavaScript memory settings and measure Discord’s private RAM. It exits after launch, keeps your normal Discord shortcut intact, and works **with or without Vencord**.
+Relay is a native launcher for the **official Discord desktop app** on Windows and Linux. It lets you try different JavaScript memory settings and measure Discord’s private RAM. It exits after launch, keeps your normal Discord shortcut intact, and works **with or without Vencord**.
 
 Relay is not a Discord replacement. A smaller launcher does not mean a smaller Discord session: the client, your activity, and any plugins determine most of its memory use.
+
+## Run on Linux
+
+Download the [**x86-64 Linux AppImage**](https://github.com/waggynotfound/discord-native-lite/releases/download/v2.1.0/Relay-2.1.0-linux-x86_64.AppImage). From the download folder:
+
+```sh
+chmod +x Relay-2.1.0-linux-x86_64.AppImage
+./Relay-2.1.0-linux-x86_64.AppImage
+```
+
+Use a native Discord installation and an X11 or XWayland desktop. There is also a terminal mode. No root or installer required. See the [Linux guide](linux/README.md) for custom tarball paths, the FUSE fallback, data location and known limits. This AppImage is not for ARM, Flatpak, or Snap installations of Discord.
 
 ## Install on Windows
 

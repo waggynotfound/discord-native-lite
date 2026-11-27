@@ -1,0 +1,20 @@
+[package]
+name = "relay-linux"
+version = "2.1.0"
+edition = "2021"
+license = "GPL-3.0-only"
+description = "Native Linux launcher and private RAM meter for desktop Discord"
+
+# Separate crate: does not need the Windows SDK or the parent build script.
+[workspace]
+
+[dependencies]
+libc = "0.2"
+fontdue = { version = "0.9", default-features = false, features = ["std", "hashbrown"] }
+x11rb = { version = "0.13", default-features = false }
+
+[profile.release]
+lto = true
+codegen-units = 1
+opt-level = "s"
+strip = true

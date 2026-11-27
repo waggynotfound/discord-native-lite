@@ -19,7 +19,7 @@ Use a native Discord installation and an X11 or XWayland desktop. There is also 
 
 Download [**Relay-2.1.0-windows-x64-setup.exe**](https://github.com/waggynotfound/discord-native-lite/releases/download/v2.1.0/Relay-2.1.0-windows-x64-setup.exe) from the [2.1.0 release](https://github.com/waggynotfound/discord-native-lite/releases/tag/v2.1.0). The setup installs for the current user, adds a Start menu shortcut, and offers an optional desktop shortcut. Open **Relay** from Start. To remove it, use Windows **Settings → Apps → Relay → Uninstall**. Uninstalling Relay leaves Discord, Vencord, and your saved readings intact.
 
-Prefer not to install? Extract `Relay-2.1.0-windows-x64-portable.zip` and run `Relay.exe`. Both packages are unsigned. The release includes `SHA256SUMS.txt`; compare its entry with `Get-FileHash -Algorithm SHA256 <downloaded-file>` to verify your download. Access to this private repository is required.
+Prefer not to install? Extract `Relay-2.1.0-windows-x64-portable.zip` and run `Relay.exe`. Both packages are unsigned. The release includes `SHA256SUMS.txt`; compare its entry with `Get-FileHash -Algorithm SHA256 <downloaded-file>` to verify your download. Release downloads are public.
 
 ## Build from source
 

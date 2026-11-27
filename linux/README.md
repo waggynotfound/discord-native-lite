@@ -4,7 +4,7 @@ Relay launches your installed **official desktop Discord** with Stock, Balanced 
 
 ## Run the AppImage
 
-On an Intel/AMD **x86-64 Linux** desktop, download `Relay-2.1.0-linux-x86_64.AppImage` and its optional `.sha256` from the private [v2.1.0 release](https://github.com/waggynotfound/discord-native-lite/releases/tag/v2.1.0). From the download directory:
+On an Intel/AMD **x86-64 Linux** desktop, download `Relay-2.1.0-linux-x86_64.AppImage` and its optional `.sha256` from the public [v2.1.0 release](https://github.com/waggynotfound/discord-native-lite/releases/tag/v2.1.0). From the download directory:
 
 ```sh
 sha256sum -c Relay-2.1.0-linux-x86_64.AppImage.sha256  # optional
@@ -12,7 +12,7 @@ chmod +x Relay-2.1.0-linux-x86_64.AppImage
 ./Relay-2.1.0-linux-x86_64.AppImage
 ```
 
-No root access, Rust installation, bundled Electron, GTK or Qt runtime is required. The graphical interface uses X11, including XWayland on Wayland desktops, and a 24/32-bit TrueColor visual. For systems without usable FUSE, use `./Relay-2.1.0-linux-x86_64.AppImage --appimage-extract-and-run`. This package is **not** for ARM/aarch64. If the repository is private, recipients need access to download from GitHub, or you can send them the AppImage directly.
+No root access, Rust installation, bundled Electron, GTK or Qt runtime is required. The graphical interface uses X11, including XWayland on Wayland desktops, and a 24/32-bit TrueColor visual. For systems without usable FUSE, use `./Relay-2.1.0-linux-x86_64.AppImage --appimage-extract-and-run`. This package is **not** for ARM/aarch64. You can share the GitHub download link directly; no sign-in is required.
 
 ## Select the client
 
